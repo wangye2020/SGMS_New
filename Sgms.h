@@ -41,6 +41,8 @@ public:
 	void analyse_record();
 	void sort_record();
 	void file_record();
+
+    void change_data(Student &,int);
 };
 
 void Sgms::run()
@@ -76,10 +78,87 @@ void Sgms::run()
 	}
 }
 
-void Sgms::add_record(){}
-void Sgms::delete_record(){}
-void Sgms::change_record(){}
-void Sgms::search_record(){}
+
+//各菜单函数↓
+
+void Sgms::add_record()
+{
+    std::cout << "请分别输入：学号、姓名、数学成绩、物理成绩、英语成绩" << std::endl;
+    std::string number, name;double math,physics,english;
+    int button_2 = 0;
+    do{
+        std::cin >> number >> name >> math >> physics >> english;
+        Student temp_stu(number,name,math,physics,english);
+        List.push_back(temp_stu);
+        std::cout << "！录入成功！" << std::endl
+                << "1.继续录入 0.返回界面：";
+        std::cin >> button_2;
+    }while(button_2 == 1);
+}
+
+void Sgms::delete_record()
+{
+    std::cout << "请输入要删除的记录的学号或姓名:";
+    std::string temp_data;
+    int old_size = List.size();
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+    {
+        if(temp_data == (*i).number || temp_data == (*i).name)
+        {
+            List.erase(i);
+            std::cout << "！删除成功！" << std::endl;
+        }
+    }
+    int new_size = List.size();
+    if(old_size == new_size)std::cout << "！未找到此记录！" << std::endl;
+}
+
+void Sgms::change_record()
+{
+    std::cout << "请输入要修改的记录的学号或姓名:";
+    std::string temp_data;
+    int old_size = List.size();
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+    {
+        if(temp_data == (*i).number || temp_data == (*i).name)
+        {
+            int button_2 = 0;
+            std::cout << "请选择要修改的项目："
+                    << "1.数学 2.物理 3.英语 0.返回：";
+            std::cin >> button_2;
+            switch (button_2) {
+                case 1:change_data((*i),1);break;
+                case 2:change_data((*i),2);break;
+                case 3:change_data((*i),3);break;
+                case 0:break;
+            }
+        }
+    }
+    int new_size = List.size();
+    if(old_size == new_size)std::cout << "！未找到此记录！" << std::endl;
+}
+
+void Sgms::search_record()
+{
+    
+}
+
 void Sgms::analyse_record(){}
 void Sgms::sort_record(){}
 void Sgms::file_record(){}
+
+
+//辅助函数↓
+
+void Sgms::change_data(Student &temp_stu,int x)
+{
+    double data = 0;
+    std::cout << "请输入修改后的内容：";
+    std::cin >> data;
+    switch (x) {
+        case 1:temp_stu.math = data;break;
+        case 2:temp_stu.physics = data;break;
+        case 3:temp_stu.english = data;break;
+    }
+    std::cout << "！修改成功！" << std::endl;
+}
