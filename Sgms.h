@@ -2,9 +2,9 @@
 #include<string>
 #include<vector>
 #include<iomanip>
+#include<cmath>
 
-class Sgms;
-
+//学生
 class Student
 {
 friend class Sgms;
@@ -20,7 +20,12 @@ public:
     double get_average(){return (math+physics+english)/(3.0);}
 };
 
-Student::Student(std::string number,std::string name,double math,double physics,double english)
+Student::Student(
+    std::string number,
+    std::string name,
+    double math,
+    double physics,
+    double english)
 {
 	this->number = number;
 	this->name = name;
@@ -34,12 +39,13 @@ void Student::print_data()
     std::cout <<
     "学号：" << std::setw(11) << number << " " <<
     "姓名：" << std::setw(6) << name << " " <<
-    "数学：" << std::setw(3) << math << " " <<
-    "物理：" << std::setw(3) << physics << " " <<
-    "英语：" << std::setw(3) << english << std::endl;
+    "数学：" << std::setprecision(3) << std::setw(3) << math <<
+    " 物理：" << std::setprecision(3) << std::setw(3) << physics <<
+    " 英语：" << std::setprecision(3) << std::setw(3) << english <<
+    " 平均：" << std::setprecision(3) << std::setw(3) << get_average() << std::endl;
 }
 
-
+//管理系统
 class Sgms
 {
 private:
@@ -48,6 +54,7 @@ private:
 public:
 	void run();
 
+    //菜单函数
 	void add_record();
 	void delete_record();
 	void change_record();
@@ -56,9 +63,14 @@ public:
 	void sort_record();
 	void file_record();
 
+    //辅助函数
     void change_data(Student &,int);
     void print_section(std::vector<Student> &,int);
-
+    void all_average(std::vector<Student> &,double &,double &,double &,double &);
+    void standard_deviation(std::vector<Student> &,
+        double &,double &,double &,double &,
+        double,double,double,double);
+    void qualified_rate(std::vector<Student> &,double &,double &,double &,double &);
     double double_cin(){double temp;std::cin >> temp;return temp;}
     std::string string_cin(){std::string temp;std::cin >> temp;return temp;}
 };
@@ -98,8 +110,6 @@ void Sgms::run()
 	}
 }
 
-
-//各菜单函数↓
 
 void Sgms::add_record()
 {
@@ -192,12 +202,44 @@ void Sgms::search_record()
     }
 }
 
-void Sgms::analyse_record(){}
-void Sgms::sort_record(){}
-void Sgms::file_record(){}
+void Sgms::analyse_record()
+{
+    double math_average = 0,english_average = 0,physics_average = 0,average_average = 0;
+    double math_dev = 0,english_dev = 0,physics_dev = 0,average_dev = 0;
+    double math_qua = 0,english_qua = 0,physics_qua = 0,average_qua = 0;
 
+    all_average(List,math_average,physics_average,english_average,average_average);
+    standard_deviation(List,math_dev,physics_dev,english_dev,average_dev,
+        math_average,physics_average,english_average,average_average);
+    qualified_rate(List,math_qua,physics_qua,english_qua,average_qua);
 
-//辅助函数↓
+    std::cout << "平均成绩：" << std::endl
+            << "数学：" << std::setprecision(4) << std::setw(4) << math_average
+            << " 物理：" << std::setprecision(4) << std::setw(4) << physics_average
+            << " 英语：" << std::setprecision(4) << std::setw(4) << english_average
+            << " 总体：" << std::setprecision(4) << std::setw(4) << average_average <<std::endl
+            << "标准差：" << std::endl
+            << "数学：" << std::setprecision(4) << std::setw(4) << math_dev
+            << " 物理：" << std::setprecision(4) << std::setw(4) << physics_dev
+            << " 英语：" << std::setprecision(4) << std::setw(4) << english_dev
+            << " 总体：" << std::setprecision(4) << std::setw(4) << average_dev <<std::endl
+            << "合格率：" << std::endl
+            << "数学：" << std::setprecision(3) << std::setw(3) << math_qua << "%"
+            << " 物理：" << std::setprecision(3) << std::setw(3) << physics_qua << "%"
+            << " 英语：" << std::setprecision(3) << std::setw(3) << english_qua << "%"
+            << " 总体：" << std::setprecision(3) << std::setw(3) << average_qua << "%" << std::endl;
+}
+
+void Sgms::sort_record()
+{
+
+}
+
+void Sgms::file_record()
+{
+    
+}
+
 
 void Sgms::change_data(Student &temp_stu,int x)
 {
@@ -228,4 +270,56 @@ void Sgms::print_section(std::vector<Student> &List,int x)
         }
         ++i;
     }
+}
+
+void Sgms::all_average(std::vector<Student> &List,
+    double &math_average,double &physics_average,double &english_average,double &average_average)
+{
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    {
+        math_average += (*i).math;
+        physics_average += (*i).physics;
+        english_average += (*i).english;
+        average_average += (*i).get_average();
+        ++i;
+    }
+    math_average /= List.size();
+    physics_average /= List.size();
+    english_average /= List.size();
+    average_average /= List.size();
+}
+
+void Sgms::standard_deviation(std::vector<Student> &List,
+    double &math_dev,double &physics_dev,double &english_dev,double &average_dev,
+    double math_average,double physics_average,double english_average,double average_average)
+{
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    {
+        math_dev += ((*i).math - math_average)*((*i).math - math_average);
+        physics_dev += ((*i).physics - physics_average)*((*i).physics - physics_average);
+        english_dev += ((*i).english - english_average)*((*i).english - english_average);
+        average_dev += ((*i).get_average() - average_average)*((*i).get_average() - average_average);
+        ++i;
+    }
+    math_dev = sqrt(math_dev/List.size());
+    physics_dev = sqrt(physics_dev/List.size());
+    english_dev = sqrt(english_dev/List.size());
+    average_dev = sqrt(average_dev/List.size());
+}
+
+void Sgms::qualified_rate(std::vector<Student> &List,
+    double &math_qua,double &physics_qua,double &english_qua,double &average_qua)
+{
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    {
+        if((*i).math >= 60)math_qua += 1;
+        if((*i).physics >= 60)physics_qua += 1;
+        if((*i).english >= 60)english_qua += 1;
+        if((*i).get_average() >= 60)average_qua += 1;
+        ++i;
+    }
+    math_qua = (math_qua/List.size())*100;
+    physics_qua = (physics_qua/List.size())*100;
+    english_qua = (english_qua/List.size())*100;
+    average_qua = (average_qua/List.size())*100;
 }
