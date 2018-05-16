@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<vector>
+#include<iomanip>
 
 class Sgms;
 
@@ -15,6 +16,7 @@ private:
 
 public:
 	Student(std::string,std::string,double,double,double);
+    void print_data();
 };
 
 Student::Student(std::string number,std::string name,double math,double physics,double english)
@@ -26,8 +28,19 @@ Student::Student(std::string number,std::string name,double math,double physics,
 	this->english = english;
 }
 
+void Student::print_data()
+{
+    std::cout <<
+    "学号：" << std::setw(11) << number << " " <<
+    "姓名：" << std::setw(6) << name << " " <<
+    "数学：" << std::setw(3) << math << " " <<
+    "物理：" << std::setw(3) << physics << " " <<
+    "英语：" << std::setw(3) << english << std::endl;
+}
 
-class Sgms{
+
+class Sgms
+{
 private:
 	std::vector<Student> List;
 
@@ -43,6 +56,8 @@ public:
 	void file_record();
 
     void change_data(Student &,int);
+    double double_cin(){double temp;std::cin >> temp;return temp;}
+    std::string string_cin(){std::string temp;std::cin >> temp;return temp;}
 };
 
 void Sgms::run()
@@ -75,6 +90,8 @@ void Sgms::run()
 		else if(button_1 == 5){analyse_record();}
 		else if(button_1 == 6){sort_record();}
 		else if(button_1 == 7){file_record();}
+
+        system("pause");
 	}
 }
 
@@ -100,47 +117,71 @@ void Sgms::delete_record()
 {
     std::cout << "请输入要删除的记录的学号或姓名:";
     std::string temp_data;
-    int old_size = List.size();
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+    std::cin >> temp_data;
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
     {
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
             List.erase(i);
             std::cout << "！删除成功！" << std::endl;
+            break;
         }
+        ++i;
+        if(i == List.end())std::cout << "！未找到此记录！" << std::endl;
     }
-    int new_size = List.size();
-    if(old_size == new_size)std::cout << "！未找到此记录！" << std::endl;
 }
 
 void Sgms::change_record()
 {
     std::cout << "请输入要修改的记录的学号或姓名:";
     std::string temp_data;
-    int old_size = List.size();
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+    std::cin >> temp_data;
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
     {
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
             int button_2 = 0;
             std::cout << "请选择要修改的项目："
-                    << "1.数学 2.物理 3.英语 0.返回：";
+                    << "1.数学 2.物理 3.英语 4.学号 5.姓名 0.返回：";
             std::cin >> button_2;
             switch (button_2) {
                 case 1:change_data((*i),1);break;
                 case 2:change_data((*i),2);break;
                 case 3:change_data((*i),3);break;
+                case 4:change_data((*i),4);break;
+                case 5:change_data((*i),5);break;
                 case 0:break;
             }
+            break;
         }
+        ++i;
+        if(i == List.end())std::cout << "！未找到此记录！" << std::endl;
     }
-    int new_size = List.size();
-    if(old_size == new_size)std::cout << "！未找到此记录！" << std::endl;
 }
 
 void Sgms::search_record()
 {
-    
+    std::cout << "1.个人成绩 2.成绩统计 0.返回：";
+    int button_2 = 0;
+    std::cin >> button_2;
+    switch(button_2){
+        case 1:{
+            std::cout << "请输入要查找的记录的学号或姓名(可模糊查找):";
+            std::string temp_data;
+            std::cin >> temp_data;
+            std::cout << "查找的结果为：" <<std::endl;
+            for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+            {
+                if((*i).number.find(temp_data) != std::string::npos || (*i).name.find(temp_data) != std::string::npos)
+                {
+                    (*i).print_data();
+                }
+                ++i;
+            }
+            break;}
+        case 2: ;break;
+        case 0: ;break;
+    }
 }
 
 void Sgms::analyse_record(){}
@@ -152,13 +193,13 @@ void Sgms::file_record(){}
 
 void Sgms::change_data(Student &temp_stu,int x)
 {
-    double data = 0;
     std::cout << "请输入修改后的内容：";
-    std::cin >> data;
     switch (x) {
-        case 1:temp_stu.math = data;break;
-        case 2:temp_stu.physics = data;break;
-        case 3:temp_stu.english = data;break;
+        case 1:temp_stu.math = double_cin();break;
+        case 2:temp_stu.physics = double_cin();break;
+        case 3:temp_stu.english = double_cin();break;
+        case 4:temp_stu.number = string_cin();break;
+        case 5:temp_stu.name = string_cin();break;
     }
     std::cout << "！修改成功！" << std::endl;
 }
