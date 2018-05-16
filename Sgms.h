@@ -15,10 +15,20 @@ private:
 	double math,physics,english;
 
 public:
+    Student();
 	Student(std::string,std::string,double,double,double);
     void print_data();
     double get_average(){return (math+physics+english)/(3.0);}
 };
+
+Student::Student()
+{
+    number = "none";
+    name = "none";
+    math = 0;
+    physics = 0;
+    english = 0;
+}
 
 Student::Student(
     std::string number,
@@ -65,12 +75,12 @@ public:
 
     //辅助函数
     void change_data(Student &,int);
-    void print_section(std::vector<Student> &,int);
-    void all_average(std::vector<Student> &,double &,double &,double &,double &);
-    void standard_deviation(std::vector<Student> &,
+    void print_section(int);
+    void all_average(double &,double &,double &,double &);
+    void standard_deviation(
         double &,double &,double &,double &,
         double,double,double,double);
-    void qualified_rate(std::vector<Student> &,double &,double &,double &,double &);
+    void qualified_rate(double &,double &,double &,double &);
     double double_cin(){double temp;std::cin >> temp;return temp;}
     std::string string_cin(){std::string temp;std::cin >> temp;return temp;}
 };
@@ -196,7 +206,7 @@ void Sgms::search_record()
             std::cout << "1.数学 2.语文 3.英语 4.平均分：";
             int button_3 = 0;
             std::cin >> button_3;
-            print_section(List,button_3);
+            print_section(button_3);
         }break;
         case 0:break;
     }
@@ -208,10 +218,10 @@ void Sgms::analyse_record()
     double math_dev = 0,english_dev = 0,physics_dev = 0,average_dev = 0;
     double math_qua = 0,english_qua = 0,physics_qua = 0,average_qua = 0;
 
-    all_average(List,math_average,physics_average,english_average,average_average);
-    standard_deviation(List,math_dev,physics_dev,english_dev,average_dev,
+    all_average(math_average,physics_average,english_average,average_average);
+    standard_deviation(math_dev,physics_dev,english_dev,average_dev,
         math_average,physics_average,english_average,average_average);
-    qualified_rate(List,math_qua,physics_qua,english_qua,average_qua);
+    qualified_rate(math_qua,physics_qua,english_qua,average_qua);
 
     std::cout << "平均成绩：" << std::endl
             << "数学：" << std::setprecision(4) << std::setw(4) << math_average
@@ -232,12 +242,56 @@ void Sgms::analyse_record()
 
 void Sgms::sort_record()
 {
-
+    int i,j;Student T;
+    for(i = 0;i < (int)List.size()-1;i++)
+    {
+        for(j = 0;j < (int)List.size()-1-i;j++)
+        {
+            if(List[j].get_average() < List[j+1].get_average()
+                && fabs(List[j].get_average()-List[j+1].get_average()) > 1E-6)
+            {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+            if(fabs(List[j].get_average()-List[j+1].get_average()) <= 1E-6)
+            {
+                if(List[j].math < List[j+1].math
+                    && fabs(List[j].math-List[j+1].math) > 1E-6)
+                {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                if(fabs(List[j].math-List[j+1].math) <= 1E-6)
+                {
+                    if(List[j].physics < List[j+1].physics
+                        && fabs(List[j].physics-List[j+1].physics) > 1E-6)
+                    {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                    if(fabs(List[j].physics-List[j+1].physics) <= 1E-6)
+                    {
+                        if(List[j].english < List[j+1].english
+                            && fabs(List[j].english-List[j+1].english) > 1E-6)
+                        {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                        if(fabs(List[j].english-List[j+1].english) <= 1E-6)
+                        {
+                            if(std::stoi(List[j].number) < std::stoi(List[j+1].number)
+                                && fabs(std::stoi(List[j].number)-std::stoi(List[j+1].number)) > 1E-6)
+                            {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    std::cout << "！排序成功！" << std::endl
+            << "1.查看 0.返回:";
+    int button_2 = 0;
+    std::cin >> button_2;
+    switch (button_2) {
+        case 1:
+            for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+            {(*i).print_data();}
+            break;
+        case 0:break;
+    }
 }
 
 void Sgms::file_record()
 {
-    
+
 }
 
 
@@ -254,7 +308,7 @@ void Sgms::change_data(Student &temp_stu,int x)
     std::cout << "！修改成功！" << std::endl;
 }
 
-void Sgms::print_section(std::vector<Student> &List,int x)
+void Sgms::print_section(int x)
 {
     std::cout << "请输入成绩分段的最低分与最高分：";
     double bottom = 0,top = 100;
@@ -272,7 +326,7 @@ void Sgms::print_section(std::vector<Student> &List,int x)
     }
 }
 
-void Sgms::all_average(std::vector<Student> &List,
+void Sgms::all_average(
     double &math_average,double &physics_average,double &english_average,double &average_average)
 {
     for(std::vector<Student>::iterator i = List.begin();i != List.end();)
@@ -289,7 +343,7 @@ void Sgms::all_average(std::vector<Student> &List,
     average_average /= List.size();
 }
 
-void Sgms::standard_deviation(std::vector<Student> &List,
+void Sgms::standard_deviation(
     double &math_dev,double &physics_dev,double &english_dev,double &average_dev,
     double math_average,double physics_average,double english_average,double average_average)
 {
@@ -307,7 +361,7 @@ void Sgms::standard_deviation(std::vector<Student> &List,
     average_dev = sqrt(average_dev/List.size());
 }
 
-void Sgms::qualified_rate(std::vector<Student> &List,
+void Sgms::qualified_rate(
     double &math_qua,double &physics_qua,double &english_qua,double &average_qua)
 {
     for(std::vector<Student>::iterator i = List.begin();i != List.end();)
