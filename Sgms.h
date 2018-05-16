@@ -17,6 +17,7 @@ private:
 public:
 	Student(std::string,std::string,double,double,double);
     void print_data();
+    double get_average(){return (math+physics+english)/(3.0);}
 };
 
 Student::Student(std::string number,std::string name,double math,double physics,double english)
@@ -56,6 +57,8 @@ public:
 	void file_record();
 
     void change_data(Student &,int);
+    void print_section(std::vector<Student> &,int);
+
     double double_cin(){double temp;std::cin >> temp;return temp;}
     std::string string_cin(){std::string temp;std::cin >> temp;return temp;}
 };
@@ -161,7 +164,7 @@ void Sgms::change_record()
 
 void Sgms::search_record()
 {
-    std::cout << "1.个人成绩 2.成绩统计 0.返回：";
+    std::cout << "1.个人成绩 2.分段名单 0.返回：";
     int button_2 = 0;
     std::cin >> button_2;
     switch(button_2){
@@ -169,7 +172,7 @@ void Sgms::search_record()
             std::cout << "请输入要查找的记录的学号或姓名(可模糊查找):";
             std::string temp_data;
             std::cin >> temp_data;
-            std::cout << "查找的结果为：" <<std::endl;
+            std::cout << "查找的结果为：" << std::endl;
             for(std::vector<Student>::iterator i = List.begin();i != List.end();)
             {
                 if((*i).number.find(temp_data) != std::string::npos || (*i).name.find(temp_data) != std::string::npos)
@@ -178,9 +181,14 @@ void Sgms::search_record()
                 }
                 ++i;
             }
-            break;}
-        case 2: ;break;
-        case 0: ;break;
+        }break;
+        case 2:{
+            std::cout << "1.数学 2.语文 3.英语 4.平均分：";
+            int button_3 = 0;
+            std::cin >> button_3;
+            print_section(List,button_3);
+        }break;
+        case 0:break;
     }
 }
 
@@ -202,4 +210,22 @@ void Sgms::change_data(Student &temp_stu,int x)
         case 5:temp_stu.name = string_cin();break;
     }
     std::cout << "！修改成功！" << std::endl;
+}
+
+void Sgms::print_section(std::vector<Student> &List,int x)
+{
+    std::cout << "请输入成绩分段的最低分与最高分：";
+    double bottom = 0,top = 100;
+    std::cin >> bottom >> top;
+    std::cout << "查找的结果为：" << std::endl;
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    {
+        switch (x) {
+            case 1:if((*i).math >= bottom && (*i).math <= top)(*i).print_data();break;
+            case 2:if((*i).physics >= bottom && (*i).physics <= top)(*i).print_data();break;
+            case 3:if((*i).english >= bottom && (*i).english <= top)(*i).print_data();break;
+            case 4:if((*i).get_average() >= bottom && (*i).get_average() <= top)(*i).print_data();break;
+        }
+        ++i;
+    }
 }
