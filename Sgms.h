@@ -3,6 +3,7 @@
 #include<vector>
 #include<iomanip>
 #include<cmath>
+#include<fstream>
 
 //学生
 class Student
@@ -47,15 +48,15 @@ Student::Student(
 void Student::print_data()
 {
     std::cout <<
-    "学号：" << std::setw(11) << number << " " <<
-    "姓名：" << std::setw(6) << name << " " <<
-    "数学：" << std::setprecision(3) << std::setw(3) << math <<
+    "学号：" << std::setw(11) << number <<
+    " 姓名：" << std::setw(6) << name <<
+    " 数学：" << std::setprecision(3) << std::setw(3) << math <<
     " 物理：" << std::setprecision(3) << std::setw(3) << physics <<
     " 英语：" << std::setprecision(3) << std::setw(3) << english <<
     " 平均：" << std::setprecision(3) << std::setw(3) << get_average() << std::endl;
 }
 
-//管理系统
+//管理系统类
 class Sgms
 {
 private:
@@ -106,15 +107,16 @@ void Sgms::run()
 
 		int button_1 = 0;
 		std::cin >> button_1;
-
-		if(button_1 == 0){break;}
-		else if(button_1 == 1){add_record();}
-		else if(button_1 == 2){delete_record();}
-		else if(button_1 == 3){change_record();}
-		else if(button_1 == 4){search_record();}
-		else if(button_1 == 5){analyse_record();}
-		else if(button_1 == 6){sort_record();}
-		else if(button_1 == 7){file_record();}
+        switch (button_1) {
+            case 1:add_record();break;
+    		case 2:delete_record();break;
+    		case 3:change_record();break;
+    		case 4:search_record();break;
+    		case 5:analyse_record();break;
+    		case 6:sort_record();break;
+    		case 7:file_record();break;
+            case 0:break;
+        }
 
         system("pause");
 	}
@@ -125,6 +127,7 @@ void Sgms::add_record()
 {
     std::cout << "请分别输入：学号、姓名、数学成绩、物理成绩、英语成绩" << std::endl;
     std::string number, name;double math,physics,english;
+
     int button_2 = 0;
     do{
         std::cin >> number >> name >> math >> physics >> english;
@@ -141,16 +144,24 @@ void Sgms::delete_record()
     std::cout << "请输入要删除的记录的学号或姓名:";
     std::string temp_data;
     std::cin >> temp_data;
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
-            List.erase(i);
-            std::cout << "！删除成功！" << std::endl;
+            (*i).print_data();
+            std::cout << "1.确认删除 0.取消：";
+            int button_2 = 0;
+            std::cin >> button_2;
+            switch (button_2) {
+                case 1:{
+                    List.erase(i);
+                    std::cout << "！删除成功！" << std::endl;
+                    }break;
+                case 0:break;
+            }
             break;
         }
-        ++i;
-        if(i == List.end())std::cout << "！未找到此记录！" << std::endl;
+        if((i+1) == List.end())std::cout << "！未找到此记录！" << std::endl;
     }
 }
 
@@ -159,7 +170,7 @@ void Sgms::change_record()
     std::cout << "请输入要修改的记录的学号或姓名:";
     std::string temp_data;
     std::cin >> temp_data;
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
@@ -177,8 +188,7 @@ void Sgms::change_record()
             }
             break;
         }
-        ++i;
-        if(i == List.end())std::cout << "！未找到此记录！" << std::endl;
+        if((i+1) == List.end())std::cout << "！未找到此记录！" << std::endl;
     }
 }
 
@@ -193,13 +203,12 @@ void Sgms::search_record()
             std::string temp_data;
             std::cin >> temp_data;
             std::cout << "查找的结果为：" << std::endl;
-            for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+            for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
             {
                 if((*i).number.find(temp_data) != std::string::npos || (*i).name.find(temp_data) != std::string::npos)
                 {
                     (*i).print_data();
                 }
-                ++i;
             }
         }break;
         case 2:{
@@ -242,56 +251,104 @@ void Sgms::analyse_record()
 
 void Sgms::sort_record()
 {
-    int i,j;Student T;
-    for(i = 0;i < (int)List.size()-1;i++)
-    {
-        for(j = 0;j < (int)List.size()-1-i;j++)
+    if(List.size() != 0){
+        int i,j;Student T;
+        for(i = 0;i < (int)List.size()-1;i++)
         {
-            if(List[j].get_average() < List[j+1].get_average()
-                && fabs(List[j].get_average()-List[j+1].get_average()) > 1E-6)
-            {T = List[j];List[j] = List[j+1];List[j+1] = T;}
-            if(fabs(List[j].get_average()-List[j+1].get_average()) <= 1E-6)
+            for(j = 0;j < (int)List.size()-1-i;j++)
             {
-                if(List[j].math < List[j+1].math
-                    && fabs(List[j].math-List[j+1].math) > 1E-6)
+                if(List[j].get_average() < List[j+1].get_average()
+                    && fabs(List[j].get_average()-List[j+1].get_average()) > 1E-6)
                 {T = List[j];List[j] = List[j+1];List[j+1] = T;}
-                if(fabs(List[j].math-List[j+1].math) <= 1E-6)
+                if(fabs(List[j].get_average()-List[j+1].get_average()) <= 1E-6)
                 {
-                    if(List[j].physics < List[j+1].physics
-                        && fabs(List[j].physics-List[j+1].physics) > 1E-6)
+                    if(List[j].math < List[j+1].math
+                        && fabs(List[j].math-List[j+1].math) > 1E-6)
                     {T = List[j];List[j] = List[j+1];List[j+1] = T;}
-                    if(fabs(List[j].physics-List[j+1].physics) <= 1E-6)
+                    if(fabs(List[j].math-List[j+1].math) <= 1E-6)
                     {
-                        if(List[j].english < List[j+1].english
-                            && fabs(List[j].english-List[j+1].english) > 1E-6)
+                        if(List[j].physics < List[j+1].physics
+                            && fabs(List[j].physics-List[j+1].physics) > 1E-6)
                         {T = List[j];List[j] = List[j+1];List[j+1] = T;}
-                        if(fabs(List[j].english-List[j+1].english) <= 1E-6)
+                        if(fabs(List[j].physics-List[j+1].physics) <= 1E-6)
                         {
-                            if(std::stoi(List[j].number) < std::stoi(List[j+1].number)
-                                && fabs(std::stoi(List[j].number)-std::stoi(List[j+1].number)) > 1E-6)
+                            if(List[j].english < List[j+1].english
+                                && fabs(List[j].english-List[j+1].english) > 1E-6)
                             {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                            if(fabs(List[j].english-List[j+1].english) <= 1E-6)
+                            {
+                                if(std::stoll(List[j].number) < std::stoll(List[j+1].number)
+                                    && fabs(std::stoll(List[j].number)-std::stoll(List[j+1].number)) > 1E-6)
+                                {T = List[j];List[j] = List[j+1];List[j+1] = T;}
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    std::cout << "！排序成功！" << std::endl
-            << "1.查看 0.返回:";
-    int button_2 = 0;
-    std::cin >> button_2;
-    switch (button_2) {
-        case 1:
-            for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
-            {(*i).print_data();}
-            break;
-        case 0:break;
+        std::cout << "！排序成功！" << std::endl
+                << "1.查看 0.返回:";
+        int button_2 = 0;
+        std::cin >> button_2;
+        switch (button_2) {
+            case 1:{
+                for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+                {(*i).print_data();}
+            }break;
+            case 0:break;
+        }
     }
 }
 
 void Sgms::file_record()
 {
-
+    std::cout << "1.读取文件 2.写入文件 0.返回：";
+    int button_2 = 0;
+    std::cin >> button_2;
+    switch (button_2) {
+        case 1:{
+            std::ifstream ifile("Grade.txt");
+            std::string temp_number,temp_name;
+            double temp_math,temp_physics,temp_english;
+            while(1)
+            {
+                if(ifile.eof())break;
+                ifile >> temp_number >> temp_name >> temp_math >> temp_physics >> temp_english;
+                Student temp_stu(temp_number,temp_name,temp_math,temp_physics,temp_english);
+                List.push_back(temp_stu);
+            }
+            std::cout << "！读取成功！" << std::endl
+                    << "1.查看 0.返回:";
+            int button_3 = 0;
+            std::cin >> button_3;
+            switch (button_3) {
+                case 1:{
+                    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+                    {(*i).print_data();}
+                }break;
+                case 0:break;
+            }
+        }break;
+        case 2:{
+            std::ofstream ofile("Grade.txt");
+            if (ofile.is_open())
+			{
+                for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
+                {
+                    ofile << std::endl
+                        << (*i).number << " "
+                        << (*i).name << " "
+                        << (*i).math << " "
+                        << (*i).physics << " "
+                        << (*i).english;
+                }
+				ofile.close();
+				std::cout << "！写入成功！" << std::endl;
+			}
+            else std::cout << "！文件无法打开！" << std::endl;
+        }break;
+        case 0:break;
+    }
 }
 
 
@@ -314,7 +371,7 @@ void Sgms::print_section(int x)
     double bottom = 0,top = 100;
     std::cin >> bottom >> top;
     std::cout << "查找的结果为：" << std::endl;
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         switch (x) {
             case 1:if((*i).math >= bottom && (*i).math <= top)(*i).print_data();break;
@@ -322,20 +379,18 @@ void Sgms::print_section(int x)
             case 3:if((*i).english >= bottom && (*i).english <= top)(*i).print_data();break;
             case 4:if((*i).get_average() >= bottom && (*i).get_average() <= top)(*i).print_data();break;
         }
-        ++i;
     }
 }
 
 void Sgms::all_average(
     double &math_average,double &physics_average,double &english_average,double &average_average)
 {
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         math_average += (*i).math;
         physics_average += (*i).physics;
         english_average += (*i).english;
         average_average += (*i).get_average();
-        ++i;
     }
     math_average /= List.size();
     physics_average /= List.size();
@@ -347,13 +402,12 @@ void Sgms::standard_deviation(
     double &math_dev,double &physics_dev,double &english_dev,double &average_dev,
     double math_average,double physics_average,double english_average,double average_average)
 {
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         math_dev += ((*i).math - math_average)*((*i).math - math_average);
         physics_dev += ((*i).physics - physics_average)*((*i).physics - physics_average);
         english_dev += ((*i).english - english_average)*((*i).english - english_average);
         average_dev += ((*i).get_average() - average_average)*((*i).get_average() - average_average);
-        ++i;
     }
     math_dev = sqrt(math_dev/List.size());
     physics_dev = sqrt(physics_dev/List.size());
@@ -364,13 +418,12 @@ void Sgms::standard_deviation(
 void Sgms::qualified_rate(
     double &math_qua,double &physics_qua,double &english_qua,double &average_qua)
 {
-    for(std::vector<Student>::iterator i = List.begin();i != List.end();)
+    for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         if((*i).math >= 60)math_qua += 1;
         if((*i).physics >= 60)physics_qua += 1;
         if((*i).english >= 60)english_qua += 1;
         if((*i).get_average() >= 60)average_qua += 1;
-        ++i;
     }
     math_qua = (math_qua/List.size())*100;
     physics_qua = (physics_qua/List.size())*100;
