@@ -107,17 +107,18 @@ void Sgms::run()
 
 		int button_1 = 0;
 		std::cin >> button_1;
-        switch (button_1) {
-            case 1:add_record();break;
-    		case 2:delete_record();break;
-    		case 3:change_record();break;
-    		case 4:search_record();break;
-    		case 5:analyse_record();break;
-    		case 6:sort_record();break;
-    		case 7:file_record();break;
-            case 0:break;
+        if(button_1 == 0)break;
+        else{
+            switch (button_1) {
+                case 1:add_record();break;
+                case 2:delete_record();break;
+                case 3:change_record();break;
+    		    case 4:search_record();break;
+    		    case 5:analyse_record();break;
+    		    case 6:sort_record();break;
+    		    case 7:file_record();break;
+            }
         }
-
         system("pause");
 	}
 }
