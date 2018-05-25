@@ -11,13 +11,13 @@ class Student
 friend class Sgms;
 
 private:
-	std::string number;
-	std::string name;
-	double math,physics,english;
+    std::string number;
+    std::string name;
+    double math,physics,english;
 
 public:
     Student();
-	Student(std::string,std::string,double,double,double);
+    Student(std::string,std::string,double,double,double);
     void print_data();
     double get_average(){return (math+physics+english)/(3.0);}
 };
@@ -38,11 +38,11 @@ Student::Student(
     double physics,
     double english)
 {
-	this->number = number;
-	this->name = name;
-	this->math = math;
-	this->physics = physics;
-	this->english = english;
+    this->number = number;
+    this->name = name;
+    this->math = math;
+    this->physics = physics;
+    this->english = english;
 }
 
 void Student::print_data()
@@ -60,19 +60,19 @@ void Student::print_data()
 class Sgms
 {
 private:
-	std::vector<Student> List;
+    std::vector<Student> List;
 
 public:
-	void run();
+    void run();
 
     //菜单函数
-	void add_record();
-	void delete_record();
-	void change_record();
-	void search_record();
-	void analyse_record();
-	void sort_record();
-	void file_record();
+    void add_record();
+    void delete_record();
+    void change_record();
+    void search_record();
+    void analyse_record();
+    void sort_record();
+    void file_record();
 
     //辅助函数
     void change_data(Student &,int);
@@ -88,39 +88,39 @@ public:
 
 void Sgms::run()
 {
-	while(1)
-	{
-		std::cout
-		<< "---------------" << std::endl
-		<< "    功能菜单    " << std::endl
-		<< "---------------" << std::endl
-		<< "1. 录入学生记录 " << std::endl
-		<< "2. 删除学生记录" << std::endl
-		<< "3. 修改学生记录" << std::endl
-		<< "4. 查找学生记录" << std::endl
-		<< "5. 成绩统计分析" << std::endl
-		<< "6. 成绩高低排序" << std::endl
-		<< "7. 成绩文件操作" << std::endl
-		<< "0. 退出程序" << std::endl
-		<< "---------------" << std::endl
-		<< "请输入你要使用的功能编号: ";
+    while(1)
+    {
+        std::cout
+        << "---------------" << std::endl
+        << "    功能菜单    " << std::endl
+        << "---------------" << std::endl
+        << "1. 录入学生记录 " << std::endl
+        << "2. 删除学生记录" << std::endl
+        << "3. 修改学生记录" << std::endl
+        << "4. 查找学生记录" << std::endl
+        << "5. 成绩统计分析" << std::endl
+        << "6. 成绩高低排序" << std::endl
+        << "7. 成绩文件操作" << std::endl
+        << "0. 退出程序" << std::endl
+        << "---------------" << std::endl
+        << "请输入你要使用的功能编号: ";
 
-		int button_1 = 0;
-		std::cin >> button_1;
+        int button_1 = 0;
+        std::cin >> button_1;
         if(button_1 == 0)break;
         else{
             switch (button_1) {
                 case 1:add_record();break;
                 case 2:delete_record();break;
                 case 3:change_record();break;
-    		    case 4:search_record();break;
-    		    case 5:analyse_record();break;
-    		    case 6:sort_record();break;
-    		    case 7:file_record();break;
+                case 4:search_record();break;
+                case 5:analyse_record();break;
+                case 6:sort_record();break;
+                case 7:file_record();break;
             }
         }
         system("pause");
-	}
+    }
 }
 
 
@@ -333,7 +333,7 @@ void Sgms::file_record()
         case 2:{
             std::ofstream ofile("Grade.txt");
             if (ofile.is_open())
-			{
+            {
                 for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
                 {
                     ofile << std::endl
@@ -343,9 +343,9 @@ void Sgms::file_record()
                         << (*i).physics << " "
                         << (*i).english;
                 }
-				ofile.close();
-				std::cout << "！写入成功！" << std::endl;
-			}
+                ofile.close();
+                std::cout << "！写入成功！" << std::endl;
+            }
             else std::cout << "！文件无法打开！" << std::endl;
         }break;
         case 0:break;
