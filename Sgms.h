@@ -74,7 +74,7 @@ public:
     void analyse_record();
     void sort_record();
     void file_record();
-
+ 
     //¸¨Öúº¯Êý
     void change_data(Student &,int);
     void print_section(int);
