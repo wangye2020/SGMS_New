@@ -6,7 +6,7 @@
 #include<fstream>
 #include<limits>
 
-//å­¦ç”Ÿ
+//Ñ§Éú
 class Student
 {
 friend class Sgms;
@@ -49,15 +49,15 @@ Student::Student(
 void Student::print_data()
 {
     std::cout <<
-    "å­¦å·ï¼š" << std::setw(11) << number <<
-    " å§“åï¼š" << std::setw(6) << name <<
-    " æ•°å­¦ï¼š" << std::setprecision(3) << std::setw(3) << math <<
-    " ç‰©ç†ï¼š" << std::setprecision(3) << std::setw(3) << physics <<
-    " è‹±è¯­ï¼š" << std::setprecision(3) << std::setw(3) << english <<
-    " å¹³å‡ï¼š" << std::setprecision(3) << std::setw(3) << get_average() << std::endl;
+    "Ñ§ºÅ£º" << std::setw(11) << number <<
+    " ÐÕÃû£º" << std::setw(6) << name <<
+    " ÊýÑ§£º" << std::setprecision(3) << std::setw(3) << math <<
+    " ÎïÀí£º" << std::setprecision(3) << std::setw(3) << physics <<
+    " Ó¢Óï£º" << std::setprecision(3) << std::setw(3) << english <<
+    " Æ½¾ù£º" << std::setprecision(3) << std::setw(3) << get_average() << std::endl;
 }
 
-//ç®¡ç†ç³»ç»Ÿç±»
+//¹ÜÀíÏµÍ³Àà
 class Sgms
 {
 private:
@@ -66,7 +66,7 @@ private:
 public:
     void run();
 
-    //èœå•å‡½æ•°
+    //²Ëµ¥º¯Êý
     void add_record();
     void delete_record();
     void change_record();
@@ -75,7 +75,7 @@ public:
     void sort_record();
     void file_record();
 
-    //è¾…åŠ©å‡½æ•°
+    //¸¨Öúº¯Êý
     void change_data(Student &,int);
     void print_section(int);
     void all_average(double &,double &,double &,double &);
@@ -93,18 +93,18 @@ void Sgms::run()
     {
         std::cout
         << "---------------" << std::endl
-        << "    åŠŸèƒ½èœå•    " << std::endl
+        << "    ¹¦ÄÜ²Ëµ¥    " << std::endl
         << "---------------" << std::endl
-        << "1. å½•å…¥å­¦ç”Ÿè®°å½• " << std::endl
-        << "2. åˆ é™¤å­¦ç”Ÿè®°å½•" << std::endl
-        << "3. ä¿®æ”¹å­¦ç”Ÿè®°å½•" << std::endl
-        << "4. æŸ¥æ‰¾å­¦ç”Ÿè®°å½•" << std::endl
-        << "5. æˆç»©ç»Ÿè®¡åˆ†æž" << std::endl
-        << "6. æˆç»©é«˜ä½ŽæŽ’åº" << std::endl
-        << "7. æˆç»©æ–‡ä»¶æ“ä½œ" << std::endl
-        << "0. é€€å‡ºç¨‹åº" << std::endl
+        << "1. Â¼ÈëÑ§Éú¼ÇÂ¼" << std::endl
+        << "2. É¾³ýÑ§Éú¼ÇÂ¼" << std::endl
+        << "3. ÐÞ¸ÄÑ§Éú¼ÇÂ¼" << std::endl
+        << "4. ²éÕÒÑ§Éú¼ÇÂ¼" << std::endl
+        << "5. ³É¼¨Í³¼Æ·ÖÎö" << std::endl
+        << "6. ³É¼¨¸ßµÍÅÅÐò" << std::endl
+        << "7. ³É¼¨ÎÄ¼þ²Ù×÷" << std::endl
+        << "0. ÍË³ö³ÌÐò" << std::endl
         << "---------------" << std::endl
-        << "è¯·è¾“å…¥ä½ è¦ä½¿ç”¨çš„åŠŸèƒ½ç¼–å·: ";
+        << "ÇëÊäÈëÄãÒªÊ¹ÓÃµÄ¹¦ÄÜ±àºÅ: ";
 
         int button_1 = 0;
         std::cin >> button_1;
@@ -120,7 +120,7 @@ void Sgms::run()
                 case 7:file_record();break;
             }
         }
-        std::cout << "è¾“å…¥ä»»æ„å­—ç¬¦ä»¥ç»§ç»­ï¼š";
+        std::cout << "ÊäÈëÈÎÒâ×Ö·ûÒÔ¼ÌÐø£º";
         std::string key;std::cin >> key;std::cout << std::endl;
     }
 }
@@ -128,7 +128,7 @@ void Sgms::run()
 
 void Sgms::add_record()
 {
-    std::cout << "è¯·åˆ†åˆ«è¾“å…¥ï¼šå­¦å·ã€å§“åã€æ•°å­¦æˆç»©ã€ç‰©ç†æˆç»©ã€è‹±è¯­æˆç»©" << std::endl;
+    std::cout << "Çë·Ö±ðÊäÈë£ºÑ§ºÅ¡¢ÐÕÃû¡¢ÊýÑ§³É¼¨¡¢ÎïÀí³É¼¨¡¢Ó¢Óï³É¼¨" << std::endl;
     std::string number, name;double math,physics,english;
 
     int button_2 = 0;
@@ -136,15 +136,15 @@ void Sgms::add_record()
         std::cin >> number >> name >> math >> physics >> english;
         Student temp_stu(number,name,math,physics,english);
         List.push_back(temp_stu);
-        std::cout << "ï¼å½•å…¥æˆåŠŸï¼" << std::endl
-                << "1.ç»§ç»­å½•å…¥ 0.è¿”å›žç•Œé¢ï¼š";
+        std::cout << "£¡Â¼Èë³É¹¦£¡" << std::endl
+                << "1.¼ÌÐøÂ¼Èë 0.·µ»Ø½çÃæ£º";
         std::cin >> button_2;
     }while(button_2 == 1);
 }
 
 void Sgms::delete_record()
 {
-    std::cout << "è¯·è¾“å…¥è¦åˆ é™¤çš„è®°å½•çš„å­¦å·æˆ–å§“å:";
+    std::cout << "ÇëÊäÈëÒªÉ¾³ýµÄ¼ÇÂ¼µÄÑ§ºÅ»òÐÕÃû:";
     std::string temp_data;
     std::cin >> temp_data;
     for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
@@ -152,25 +152,25 @@ void Sgms::delete_record()
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
             (*i).print_data();
-            std::cout << "1.ç¡®è®¤åˆ é™¤ 0.å–æ¶ˆï¼š";
+            std::cout << "1.È·ÈÏÉ¾³ý 0.È¡Ïû£º";
             int button_2 = 0;
             std::cin >> button_2;
             switch (button_2) {
                 case 1:{
                     List.erase(i);
-                    std::cout << "ï¼åˆ é™¤æˆåŠŸï¼" << std::endl;
+                    std::cout << "£¡É¾³ý³É¹¦£¡" << std::endl;
                     }break;
                 case 0:break;
             }
             break;
         }
-        if((i+1) == List.end())std::cout << "ï¼æœªæ‰¾åˆ°æ­¤è®°å½•ï¼" << std::endl;
+        if((i+1) == List.end())std::cout << "£¡Î´ÕÒµ½´Ë¼ÇÂ¼£¡" << std::endl;
     }
 }
 
 void Sgms::change_record()
 {
-    std::cout << "è¯·è¾“å…¥è¦ä¿®æ”¹çš„è®°å½•çš„å­¦å·æˆ–å§“å:";
+    std::cout << "ÇëÊäÈëÒªÐÞ¸ÄµÄ¼ÇÂ¼µÄÑ§ºÅ»òÐÕÃû:";
     std::string temp_data;
     std::cin >> temp_data;
     for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
@@ -178,8 +178,8 @@ void Sgms::change_record()
         if(temp_data == (*i).number || temp_data == (*i).name)
         {
             int button_2 = 0;
-            std::cout << "è¯·é€‰æ‹©è¦ä¿®æ”¹çš„é¡¹ç›®ï¼š"
-                    << "1.æ•°å­¦ 2.ç‰©ç† 3.è‹±è¯­ 4.å­¦å· 5.å§“å 0.è¿”å›žï¼š";
+            std::cout << "ÇëÑ¡ÔñÒªÐÞ¸ÄµÄÏîÄ¿£º"
+                    << "1.ÊýÑ§ 2.ÎïÀí 3.Ó¢Óï 4.Ñ§ºÅ 5.ÐÕÃû 0.·µ»Ø£º";
             std::cin >> button_2;
             switch (button_2) {
                 case 1:change_data((*i),1);break;
@@ -191,21 +191,21 @@ void Sgms::change_record()
             }
             break;
         }
-        if((i+1) == List.end())std::cout << "ï¼æœªæ‰¾åˆ°æ­¤è®°å½•ï¼" << std::endl;
+        if((i+1) == List.end())std::cout << "£¡Î´ÕÒµ½´Ë¼ÇÂ¼£¡" << std::endl;
     }
 }
 
 void Sgms::search_record()
 {
-    std::cout << "1.ä¸ªäººæˆç»© 2.åˆ†æ®µåå• 0.è¿”å›žï¼š";
+    std::cout << "1.¸öÈË³É¼¨ 2.·Ö¶ÎÃûµ¥ 0.·µ»Ø£º";
     int button_2 = 0;
     std::cin >> button_2;
     switch(button_2){
         case 1:{
-            std::cout << "è¯·è¾“å…¥è¦æŸ¥æ‰¾çš„è®°å½•çš„å­¦å·æˆ–å§“å(å¯æ¨¡ç³ŠæŸ¥æ‰¾):";
+            std::cout << "ÇëÊäÈëÒª²éÕÒµÄ¼ÇÂ¼µÄÑ§ºÅ»òÐÕÃû(¿ÉÄ£ºý²éÕÒ):";
             std::string temp_data;
             std::cin >> temp_data;
-            std::cout << "æŸ¥æ‰¾çš„ç»“æžœä¸ºï¼š" << std::endl;
+            std::cout << "²éÕÒµÄ½á¹ûÎª£º" << std::endl;
             for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
             {
                 if((*i).number.find(temp_data) != std::string::npos || (*i).name.find(temp_data) != std::string::npos)
@@ -215,7 +215,7 @@ void Sgms::search_record()
             }
         }break;
         case 2:{
-            std::cout << "1.æ•°å­¦ 2.è¯­æ–‡ 3.è‹±è¯­ 4.å¹³å‡åˆ†ï¼š";
+            std::cout << "1.ÊýÑ§ 2.ÓïÎÄ 3.Ó¢Óï 4.Æ½¾ù·Ö£º";
             int button_3 = 0;
             std::cin >> button_3;
             print_section(button_3);
@@ -235,21 +235,21 @@ void Sgms::analyse_record()
         math_average,physics_average,english_average,average_average);
     qualified_rate(math_qua,physics_qua,english_qua,average_qua);
 
-    std::cout << "å¹³å‡æˆç»©ï¼š" << std::endl
-            << "æ•°å­¦ï¼š" << std::setprecision(4) << std::setw(4) << math_average
-            << " ç‰©ç†ï¼š" << std::setprecision(4) << std::setw(4) << physics_average
-            << " è‹±è¯­ï¼š" << std::setprecision(4) << std::setw(4) << english_average
-            << " æ€»ä½“ï¼š" << std::setprecision(4) << std::setw(4) << average_average <<std::endl
-            << "æ ‡å‡†å·®ï¼š" << std::endl
-            << "æ•°å­¦ï¼š" << std::setprecision(4) << std::setw(4) << math_dev
-            << " ç‰©ç†ï¼š" << std::setprecision(4) << std::setw(4) << physics_dev
-            << " è‹±è¯­ï¼š" << std::setprecision(4) << std::setw(4) << english_dev
-            << " æ€»ä½“ï¼š" << std::setprecision(4) << std::setw(4) << average_dev <<std::endl
-            << "åˆæ ¼çŽ‡ï¼š" << std::endl
-            << "æ•°å­¦ï¼š" << std::setprecision(3) << std::setw(3) << math_qua << "%"
-            << " ç‰©ç†ï¼š" << std::setprecision(3) << std::setw(3) << physics_qua << "%"
-            << " è‹±è¯­ï¼š" << std::setprecision(3) << std::setw(3) << english_qua << "%"
-            << " æ€»ä½“ï¼š" << std::setprecision(3) << std::setw(3) << average_qua << "%" << std::endl;
+    std::cout << "Æ½¾ù³É¼¨£º" << std::endl
+            << "ÊýÑ§£º" << std::setprecision(4) << std::setw(4) << math_average
+            << " ÎïÀí£º" << std::setprecision(4) << std::setw(4) << physics_average
+            << " Ó¢Óï£º" << std::setprecision(4) << std::setw(4) << english_average
+            << " ×ÜÌå£º" << std::setprecision(4) << std::setw(4) << average_average <<std::endl
+            << "±ê×¼²î£º" << std::endl
+            << "ÊýÑ§£º" << std::setprecision(4) << std::setw(4) << math_dev
+            << " ÎïÀí£º" << std::setprecision(4) << std::setw(4) << physics_dev
+            << " Ó¢Óï£º" << std::setprecision(4) << std::setw(4) << english_dev
+            << " ×ÜÌå£º" << std::setprecision(4) << std::setw(4) << average_dev <<std::endl
+            << "ºÏ¸ñÂÊ£º" << std::endl
+            << "ÊýÑ§£º" << std::setprecision(3) << std::setw(3) << math_qua << "%"
+            << " ÎïÀí£º" << std::setprecision(3) << std::setw(3) << physics_qua << "%"
+            << " Ó¢Óï£º" << std::setprecision(3) << std::setw(3) << english_qua << "%"
+            << " ×ÜÌå£º" << std::setprecision(3) << std::setw(3) << average_qua << "%" << std::endl;
 }
 
 void Sgms::sort_record()
@@ -289,8 +289,8 @@ void Sgms::sort_record()
                 }
             }
         }
-        std::cout << "ï¼æŽ’åºæˆåŠŸï¼" << std::endl
-                << "1.æŸ¥çœ‹ 0.è¿”å›ž:";
+        std::cout << "£¡ÅÅÐò³É¹¦£¡" << std::endl
+                << "1.²é¿´ 0.·µ»Ø:";
         int button_2 = 0;
         std::cin >> button_2;
         switch (button_2) {
@@ -305,7 +305,7 @@ void Sgms::sort_record()
 
 void Sgms::file_record()
 {
-    std::cout << "1.è¯»å–æ–‡ä»¶ 2.å†™å…¥æ–‡ä»¶ 0.è¿”å›žï¼š";
+    std::cout << "1.¶ÁÈ¡ÎÄ¼þ 2.Ð´ÈëÎÄ¼þ 0.·µ»Ø£º";
     int button_2 = 0;
     std::cin >> button_2;
     switch (button_2) {
@@ -320,8 +320,8 @@ void Sgms::file_record()
                 Student temp_stu(temp_number,temp_name,temp_math,temp_physics,temp_english);
                 List.push_back(temp_stu);
             }
-            std::cout << "ï¼è¯»å–æˆåŠŸï¼" << std::endl
-                    << "1.æŸ¥çœ‹ 0.è¿”å›ž:";
+            std::cout << "£¡¶ÁÈ¡³É¹¦£¡" << std::endl
+                    << "1.²é¿´ 0.·µ»Ø:";
             int button_3 = 0;
             std::cin >> button_3;
             switch (button_3) {
@@ -346,9 +346,9 @@ void Sgms::file_record()
                         << (*i).english;
                 }
                 ofile.close();
-                std::cout << "ï¼å†™å…¥æˆåŠŸï¼" << std::endl;
+                std::cout << "£¡Ð´Èë³É¹¦£¡" << std::endl;
             }
-            else std::cout << "ï¼æ–‡ä»¶æ— æ³•æ‰“å¼€ï¼" << std::endl;
+            else std::cout << "£¡ÎÄ¼þÎÞ·¨´ò¿ª£¡" << std::endl;
         }break;
         case 0:break;
     }
@@ -357,7 +357,7 @@ void Sgms::file_record()
 
 void Sgms::change_data(Student &temp_stu,int x)
 {
-    std::cout << "è¯·è¾“å…¥ä¿®æ”¹åŽçš„å†…å®¹ï¼š";
+    std::cout << "ÇëÊäÈëÐÞ¸ÄºóµÄÄÚÈÝ£º";
     switch (x) {
         case 1:temp_stu.math = double_cin();break;
         case 2:temp_stu.physics = double_cin();break;
@@ -365,15 +365,15 @@ void Sgms::change_data(Student &temp_stu,int x)
         case 4:temp_stu.number = string_cin();break;
         case 5:temp_stu.name = string_cin();break;
     }
-    std::cout << "ï¼ä¿®æ”¹æˆåŠŸï¼" << std::endl;
+    std::cout << "£¡ÐÞ¸Ä³É¹¦£¡" << std::endl;
 }
 
 void Sgms::print_section(int x)
 {
-    std::cout << "è¯·è¾“å…¥æˆç»©åˆ†æ®µçš„æœ€ä½Žåˆ†ä¸Žæœ€é«˜åˆ†ï¼š";
+    std::cout << "ÇëÊäÈë³É¼¨·Ö¶ÎµÄ×îµÍ·ÖÓë×î¸ß·Ö£º";
     double bottom = 0,top = 100;
     std::cin >> bottom >> top;
-    std::cout << "æŸ¥æ‰¾çš„ç»“æžœä¸ºï¼š" << std::endl;
+    std::cout << "²éÕÒµÄ½á¹ûÎª£º" << std::endl;
     for(std::vector<Student>::iterator i = List.begin();i != List.end();i++)
     {
         switch (x) {
